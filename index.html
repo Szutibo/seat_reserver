@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Seat reservation</title>
+</head>
+
+<body>
+    <main>
+        <div class="content">
+            <div class="content-left">
+                <div class="content-left-header">
+                    <h1>Seat Reserving Application</h1>
+                </div>
+                <div class="ranges">
+                    <div class="range-container">
+                        <h3 class="range-text">Number of occupied seats: <span id="occupied-seats"></span></h3>
+                        <input type="range" step="1" min="9" max="41" id="occupied-seats-range" value="9">
+                    </div>
+                    <div class="range-container">
+                        <h3 class="range-text">Number of demanded seats: <span id="demanded-seats"></span></h3>
+                        <input type="range" step="1" min="1" max="4" id="demanded-seats-range" value="1">
+                    </div>
+                </div>
+                <div id="result-container">
+                    <ul id="result-items">
+                    </ul>
+                </div>
+                <div id="error-container"></div>
+                <div class="btn-container">
+                    <button id="search-btn">Search!</button>
+                </div>
+            </div>
+            <div class="content-right">
+                <img src="./assets/bg.png" alt="Schematic image of a theatre">
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
