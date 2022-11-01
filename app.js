@@ -590,8 +590,9 @@ function visualiseSeats() {
                 let seatNumber = 1;
                 const seatContainer = document.querySelector(`.auditorium-seat-container-${j}`);
                 while (getSeat(positions[i], auditoriumRows[j], seatNumber)) {
+                    let seat = getSeat(positions[i], auditoriumRows[j], seatNumber);
                     createSeat.innerHTML = seatNumber;
-                    createSeat.classList = `seat seat-${positions[i]}-${auditoriumRows[j]}-${seatNumber}`;
+                    createSeat.classList = `seat seat-${positions[i]}-${auditoriumRows[j]}-${seatNumber} tier-${seat.tier}`;
                     seatContainer.appendChild(createSeat.cloneNode(true));
                     seatNumber++;
                 };
@@ -610,8 +611,9 @@ function visualiseSeats() {
                 let seatNumber = 1;
                 const seatContainer = document.querySelector(`.balcony-seat-container-${k}`);
                 while (getSeat(positions[i], auditoriumRows[k], seatNumber)) {
+                    let seat = getSeat(positions[i], auditoriumRows[k], seatNumber);
                     createSeat.innerHTML = seatNumber;
-                    createSeat.classList = `seat seat-${positions[i]}-${auditoriumRows[k]}-${seatNumber}`;
+                    createSeat.classList = `seat seat-${positions[i]}-${auditoriumRows[k]}-${seatNumber} tier-${seat.tier}`;
                     seatContainer.appendChild(createSeat.cloneNode(true));
                     seatNumber++;
                 };
