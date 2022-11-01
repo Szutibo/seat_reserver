@@ -395,6 +395,18 @@ searchAgainBtn.addEventListener('click', () => {
     errorContainer.innerHTML = '';
 });
 
+function createResults(object) {
+    let resultArray = [];
+
+    clearClassNames('option');
+
+    object.forEach(oneObject => {
+        visualiseReservedStatus(oneObject.position, oneObject.row, oneObject.seatNumber, 'option');
+        resultArray.push(`<li class="result-item"><span>Zone: </span>${oneObject.position}<span>Row: </span>${oneObject.row}<span>Seat: </span>${oneObject.seatNumber}</li>`);
+    });
+    return resultArray;
+};
+
 // Seat reservation related functions
 function reserveRandomSeats() {
     if (numberOfReservedSeats.value < Math.floor(seats.length * 0.2)) {
@@ -428,18 +440,6 @@ function resetArray() {
         if (seats[i].reserved) seats[i].reserved = false;
     }
     reservedSeatsIndexes.length = 0;
-};
-
-function createResults(object) {
-    let resultArray = [];
-
-    clearClassNames('option');
-
-    object.forEach(oneObject => {
-        visualiseReservedStatus(oneObject.position, oneObject.row, oneObject.seatNumber, 'option');
-        resultArray.push(`<li class="result-item"><span>Zone: </span>${oneObject.position}<span>Row: </span>${oneObject.row}<span>Seat: </span>${oneObject.seatNumber}</li>`);
-    });
-    return resultArray;
 };
 
 function getSeat(position, row, seatNumber) {
