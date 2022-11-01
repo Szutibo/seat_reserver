@@ -184,3 +184,58 @@ main {
 .option {
     background-color: orange;
 }
+
+@media (max-width: 1920px) {
+    main {
+        width: 65%;
+    }
+}
+
+@media (max-width: 1400px) {
+    main {
+        width: 85%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .seat-container:first-child {
+        margin-left: 1rem;
+    }
+
+    .seat {
+        width: 30px;
+        height: 30px;
+        margin: 0.35rem;
+    }
+}
+
+@media (max-width: 860px) {
+    body {
+        padding: 1rem;
+    }
+
+    main {
+        width: 95%;
+    }
+
+    .seat-container:first-child {
+        margin-left: 0.5rem;
+    }
+
+    .seat {
+        margin: 0.25rem;
+    }
+}
+
+@media (max-width: 680px) {
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .content-left, .content-right {
+        width: 90%;
+        border: none;
+    }
+}
