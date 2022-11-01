@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    font-family: sans-serif;
 }
 
 body {
@@ -24,15 +25,6 @@ main {
     padding: 1rem;
     width: 50%;
     border-right: 5px solid black;
-}
-
-.content-right {
-    width: 50%;
-}
-
-img {
-    width: 100%;
-    height: 100%;
 }
 
 .content-left-header {
@@ -67,7 +59,7 @@ img {
     margin-top: 3rem;
 }
 
-#search-btn {
+.search-btn, .search-again {
     cursor: pointer;
     font-size: 1rem;
     padding: 0.5rem 1rem;
@@ -75,16 +67,26 @@ img {
     background-color: rgb(78, 199, 104);
 }
 
-#search-btn:hover {
+.search-again {
+    display: none;
+    background-color: rgb(215, 251, 96);
+}
+
+.search-btn:hover {
     scale: 1.1;
     background-color: rgb(10, 222, 10);
 }
 
-#search-btn:active {
+.search-again:hover {
+    scale: 1.1;
+    background-color: rgb(201, 251, 35);
+}
+
+.search-btn:active, .search-again:active {
     transform: translateY(-5px);
 }
 
-#error-container {
+.error-container {
     display: none;
     color: red;
     font-size: 1.25rem;
@@ -96,7 +98,7 @@ img {
     background-color: rgba(255, 0, 0, 0.35);
 }
 
-#result-container {
+.result-container {
     display: none;
     border: 1px solid black;
     border-radius: 2px;
@@ -104,7 +106,7 @@ img {
     background-color: rgba(3, 216, 3, 0.4);
 }
 
-#result-items {
+.result-items {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 }
@@ -118,4 +120,67 @@ img {
 .result-item span {
     font-weight: 900;
     margin-left: 8px;
+}
+
+.content-right {
+    width: 50%;
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-right h1 {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+    font-size: 2.5rem;
+}
+
+.content-right h2 {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1rem;
+    line-height: 2.5rem;
+    font-weight: 900;
+}
+
+.seat-container {
+    display: flex;
+    flex-direction: row;
+    margin-right: 1rem;
+}
+
+.seat-container:first-child {
+    margin-left: 1.5rem;
+}
+
+.seat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    background-color: green;
+    margin: 0.5rem;
+    font-weight: 800;
+    border-radius: 3px;
+}
+
+.content-right:last-child {
+    margin-top: 2.5rem;
+}
+
+.reserved {
+    background-color: red;
+}
+
+.option {
+    background-color: orange;
 }

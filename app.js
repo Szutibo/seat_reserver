@@ -328,17 +328,20 @@ let seats = [
         id: 41,
     },
 ];
-var numberOfReservedSeats = document.getElementById('occupied-seats-range'); // Min 20% max 100%
-var numberOfDemandedSeats = document.getElementById('demanded-seats-range'); // Min 1 max 4
+var numberOfReservedSeats = document.querySelector('.occupied-seats-range'); // Min 20% max 100%
+var numberOfDemandedSeats = document.querySelector('.demanded-seats-range'); // Min 1 max 4
 const reservedSeatsIndexes = []; // Randomly generated index numbers
 let errors = [];
 let bestOption = [];
-const occupiedSeatsCounter = document.getElementById('occupied-seats');
-const demandedSeatsCounter = document.getElementById('demanded-seats');
-const errorContainer = document.getElementById('error-container');
-const resultContainer = document.getElementById('result-container');
-const result = document.getElementById('result-items');
-const searchBtn = document.getElementById('search-btn');
+const occupiedSeatsCounter = document.querySelector('.occupied-seats');
+const demandedSeatsCounter = document.querySelector('.demanded-seats');
+const errorContainer = document.querySelector('.error-container');
+const resultContainer = document.querySelector('.result-container');
+const result = document.querySelector('.result-items');
+const searchBtn = document.querySelector('.search-btn');
+const searchAgainBtn = document.querySelector('.search-again');
+const content = document.querySelector('.content');
+let showButton = true;
 
 // GUI related functions
 demandedSeatsCounter.innerHTML = numberOfDemandedSeats.value;
@@ -350,11 +353,23 @@ numberOfDemandedSeats.addEventListener('change', () => {
 
 numberOfReservedSeats.addEventListener('change', () => {
     occupiedSeatsCounter.innerHTML = numberOfReservedSeats.value;
+    resetArray();
+    reserveRandomSeats();
+});
+
+content.addEventListener('click', () => {
+    if (showButton) {
+        searchBtn.style.display = 'block';
+        searchAgainBtn.style.display = 'none';
+    } else {
+        searchBtn.style.display = 'none';
+        searchAgainBtn.style.display = 'block';
+    }
 });
 
 searchBtn.addEventListener('click', () => {
+    showButton = !showButton;
     errors = [];
-    reserveRandomSeats();
     findFreeSeats();
     if (errors.length > 0) {
         resultContainer.style.display = 'none';
@@ -367,6 +382,17 @@ searchBtn.addEventListener('click', () => {
         resultContainer.style.display = 'block';
         result.innerHTML = createResults(bestOption).join('');
     }
+});
+
+searchAgainBtn.addEventListener('click', () => {
+    showButton = !showButton;
+    errors = [];
+    resetArray();
+    reserveRandomSeats();
+    resultContainer.style.display = 'none';
+    result.innerHTML = '';
+    errorContainer.style.display = 'none';
+    errorContainer.innerHTML = '';
 });
 
 // Seat reservation related functions
@@ -386,28 +412,32 @@ function reserveRandomSeats() {
             };
         };
 
+        clearClassNames('option');
+        clearClassNames('reserved');
+
         // Setting seats' reserved prop to true in the original array based on the random generated array of indexes
         reservedSeatsIndexes.forEach(index => {
             seats[index].reserved = true;
+            visualiseReservedStatus(seats[index].position, seats[index].row, seats[index].seatNumber, 'reserved');
         });
     }
 };
 
 function resetArray() {
-    let reservedSeats = seats.filter(seat => seat.reserved);
+    for (let i = 0; i < 41; i++) {
+        if (seats[i].reserved) seats[i].reserved = false;
+    }
     reservedSeatsIndexes.length = 0;
-
-    reservedSeats.forEach(seat => {
-        seat.reserved = false;
-    });
 };
 
 function createResults(object) {
     let resultArray = [];
 
+    clearClassNames('option');
+
     object.forEach(oneObject => {
+        visualiseReservedStatus(oneObject.position, oneObject.row, oneObject.seatNumber, 'option');
         resultArray.push(`<li class="result-item"><span>Zone: </span>${oneObject.position}<span>Row: </span>${oneObject.row}<span>Seat: </span>${oneObject.seatNumber}</li>`);
-        //resultArray.push('<li class="result-item"><span>Zone: </span>'+oneObject.position+'<span>Row: </span>'+oneObject.row+'<span>Seat: </span>'+oneObject.seatNumber+'</li>');
     });
     return resultArray;
 };
@@ -521,40 +551,87 @@ function findFreeSeats() {
                     } else if (numberOfDemandedSeats.value == 1) {
                         options.push(suitableSeats);
                     }
-                };
+                }
                 seatNumber++;
             };
         });
     });
 
     bestOption = options[compareOptions(options)];
-    resetArray();
 
     if (!bestOption) {
         errors = 'Apologies but at the moment there are no suitable seats! Please try again later!';
     }
 };
 
-// Helper function, helps visualizing reserved and free seats on the consol
-function visualise() {
-    positions = ['auditorium', 'balcony'];
-    rows = ['A', 'B', 'C', 'D', 'E'];
-    positions.forEach(position => {
-        rows.forEach(row => {
-            let rowText = row + "";
-            let seatNumber = 1;
-            while (getSeat(position, row, seatNumber)) {
-                let seat = getSeat(position, row, seatNumber);
-                if (seat.reserved) {
-                    rowText += "\x1b[40m \x1b[41m" + seatNumber;
-                } else {
-                    rowText += "\x1b[40m \x1b[42m" + seatNumber;
-                }
-                seatNumber++;
-            }
-            rowText += "\x1b[40m;"
-            console.log(rowText);
-        });
-    });
+// Seat visualization related functions
+function visualiseSeats() {
+    const positions = ['auditorium', 'balcony'];
+    const auditoriumRows = ['A', 'B', 'C', 'D', 'E'];
+    const balconyRows = ['A', 'B'];
+    const auditorium = document.querySelector('.content-right-auditorium');
+    const balcony = document.querySelector('.content-right-balcony');
+    const createRow = document.createElement('div');
+    const createRowChild = document.createElement('div');
+    const createSeat = document.createElement('div');
+
+    for (let i = 0; i < positions.length; i++) {
+        if (i === 0) {
+            for (let j = 0; j < auditoriumRows.length; j++) {
+                // Create row element
+                createRow.innerHTML = auditoriumRows[j];
+                createRow.classList = `row auditorium-row-${j}`;
+                auditorium.appendChild(createRow.cloneNode(true));
+                // Create seat container element
+                const auditoriumRow = document.querySelector(`.auditorium-row-${j}`);
+                createRowChild.classList = `seat-container auditorium-seat-container-${j}`;
+                auditoriumRow.appendChild(createRowChild.cloneNode(true));
+                // Create seat elements
+                let seatNumber = 1;
+                const seatContainer = document.querySelector(`.auditorium-seat-container-${j}`);
+                while (getSeat(positions[i], auditoriumRows[j], seatNumber)) {
+                    createSeat.innerHTML = seatNumber;
+                    createSeat.classList = `seat seat-${positions[i]}-${auditoriumRows[j]}-${seatNumber}`;
+                    seatContainer.appendChild(createSeat.cloneNode(true));
+                    seatNumber++;
+                };
+            };
+        } else {
+            for (let k = 0; k < balconyRows.length; k++) {
+                // Create row element
+                createRow.innerHTML = balconyRows[k];
+                createRow.classList = `row balcony-row-${k}`;
+                balcony.appendChild(createRow.cloneNode(true));
+                // Create seat container element
+                const balconyRow = document.querySelector(`.balcony-row-${k}`);
+                createRowChild.classList = `seat-container balcony-seat-container-${k}`;
+                balconyRow.appendChild(createRowChild.cloneNode(true));
+                // Create seat elements
+                let seatNumber = 1;
+                const seatContainer = document.querySelector(`.balcony-seat-container-${k}`);
+                while (getSeat(positions[i], auditoriumRows[k], seatNumber)) {
+                    createSeat.innerHTML = seatNumber;
+                    createSeat.classList = `seat seat-${positions[i]}-${auditoriumRows[k]}-${seatNumber}`;
+                    seatContainer.appendChild(createSeat.cloneNode(true));
+                    seatNumber++;
+                };
+            };
+        }
+    };
 };
-// visualise();
+
+function visualiseReservedStatus(position, row, seatNumber, value) {
+    let seat = document.querySelector(`.seat-${position}-${row}-${seatNumber}`);
+
+    seat.className += ` ${value}`;
+};
+
+function clearClassNames(value) {
+    for (let i = 0; i < seats.length; i++) {
+        let seat = document.querySelector(`.seat-${seats[i].position}-${seats[i].row}-${seats[i].seatNumber}`);
+        seat.classList.remove(`${value}`);
+    };
+};
+
+visualiseSeats();
+reserveRandomSeats();

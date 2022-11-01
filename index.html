@@ -18,25 +18,34 @@
                 </div>
                 <div class="ranges">
                     <div class="range-container">
-                        <h3 class="range-text">Number of occupied seats: <span id="occupied-seats"></span></h3>
-                        <input type="range" step="1" min="9" max="41" id="occupied-seats-range" value="9">
+                        <h3 class="range-text">Number of occupied seats: <span class="occupied-seats"></span></h3>
+                        <input type="range" step="1" min="9" max="41" class="occupied-seats-range" value="9">
                     </div>
                     <div class="range-container">
-                        <h3 class="range-text">Number of demanded seats: <span id="demanded-seats"></span></h3>
-                        <input type="range" step="1" min="1" max="4" id="demanded-seats-range" value="1">
+                        <h3 class="range-text">Number of demanded seats: <span class="demanded-seats"></span></h3>
+                        <input type="range" step="1" min="1" max="4" class="demanded-seats-range" value="1">
                     </div>
                 </div>
-                <div id="result-container">
-                    <ul id="result-items">
+                <div class="result-container">
+                    <ul class="result-items">
                     </ul>
                 </div>
-                <div id="error-container"></div>
+                <div class="error-container"></div>
                 <div class="btn-container">
-                    <button id="search-btn">Search!</button>
+                    <button class="search-btn">Search!</button>
+                    <button class="search-again">Reset!</button>
                 </div>
             </div>
             <div class="content-right">
-                <img src="./assets/bg.png" alt="Schematic image of a theatre">
+                <div class="content-right-header">
+                    <h1>Stage</h1>
+                </div>
+                <div class="content-right-auditorium">
+                    <h2>Auditorium</h2>
+                </div>
+                <div class="content-right-balcony">
+                    <h2>Balcony</h2>
+                </div>
             </div>
         </div>
     </main>
